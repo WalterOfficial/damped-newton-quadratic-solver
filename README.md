@@ -1,146 +1,172 @@
-# Damped Newton Quadratic Solver
+# Р РµС€РµРЅРёРµ РєРІР°РґСЂР°С‚РЅРѕРіРѕ СѓСЂР°РІРЅРµРЅРёСЏ РґРµРјРїС„РёСЂРѕРІР°РЅРЅС‹Рј РјРµС‚РѕРґРѕРј РќСЊСЋС‚РѕРЅР°
 
-A compact C++ console program for finding the real roots of
+РќРµР±РѕР»СЊС€РѕР№ РїСЂРѕРµРєС‚ РЅР° C++, РєРѕС‚РѕСЂС‹Р№ РЅР°С…РѕРґРёС‚ РІРµС‰РµСЃС‚РІРµРЅРЅС‹Рµ РєРѕСЂРЅРё СѓСЂР°РІРЅРµРЅРёСЏ
 
 ```text
 a*x^2 + b*x + c = 0
 ```
 
-using:
+СЃ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёРµРј:
 
-- extremum analysis of the parabola
-- a damped Newton method
-- arctangent-based stabilization
+- Р°РЅР°Р»РёР·Р° СЌРєСЃС‚СЂРµРјСѓРјР° РїР°СЂР°Р±РѕР»С‹
+- РґРµРјРїС„РёСЂРѕРІР°РЅРЅРѕРіРѕ РјРµС‚РѕРґР° РќСЊСЋС‚РѕРЅР°
+- СЃС‚Р°Р±РёР»РёР·Р°С†РёРё С‡РµСЂРµР· Р°СЂРєС‚Р°РЅРіРµРЅСЃ
 
-## Overview
+## Р§С‚Рѕ СѓРјРµРµС‚ РїСЂРѕРіСЂР°РјРјР°
 
-The program reads the coefficients `a`, `b`, and `c`, determines how many real roots exist, and then refines those roots numerically.
+- СЂРµС€Р°РµС‚ РєРІР°РґСЂР°С‚РЅС‹Рµ СѓСЂР°РІРЅРµРЅРёСЏ
+- РєРѕСЂСЂРµРєС‚РЅРѕ РѕР±СЂР°Р±Р°С‚С‹РІР°РµС‚ Р»РёРЅРµР№РЅС‹Р№ СЃР»СѓС‡Р°Р№
+- РѕРїСЂРµРґРµР»СЏРµС‚ РєРѕР»РёС‡РµСЃС‚РІРѕ РІРµС‰РµСЃС‚РІРµРЅРЅС‹С… РєРѕСЂРЅРµР№ РїРѕ СЌРєСЃС‚СЂРµРјСѓРјСѓ
+- СѓС‚РѕС‡РЅСЏРµС‚ РєРѕСЂРЅРё С‡РёСЃР»РµРЅРЅС‹Рј РјРµС‚РѕРґРѕРј
+- СЃРЅРёР¶Р°РµС‚ СЂРёСЃРє РЅРµСѓСЃС‚РѕР№С‡РёРІС‹С… С€Р°РіРѕРІ РќСЊСЋС‚РѕРЅР° Р·Р° СЃС‡С‘С‚ РґРµРјРїС„РёСЂРѕРІР°РЅРёСЏ
 
-Instead of using only the discriminant formula, the solver first analyzes the extremum of the quadratic function:
+## РРґРµСЏ РјРµС‚РѕРґР°
+
+Р Р°СЃСЃРјР°С‚СЂРёРІР°РµС‚СЃСЏ С„СѓРЅРєС†РёСЏ
 
 ```text
 f(x) = a*x^2 + b*x + c
 ```
 
-The extremum is located at:
+Р”Р»СЏ РєРІР°РґСЂР°С‚РЅРѕР№ С„СѓРЅРєС†РёРё СЌРєСЃС‚СЂРµРјСѓРј РЅР°С…РѕРґРёС‚СЃСЏ РІ С‚РѕС‡РєРµ
 
 ```text
 x* = -b / (2a)
 ```
 
-The value `f(x*)` tells us the real-root structure:
+Р° Р·РЅР°С‡РµРЅРёРµ РІ СЌРєСЃС‚СЂРµРјСѓРјРµ СЂР°РІРЅРѕ
 
-- `f(x*) = 0` -> one double root
-- upward parabola with `f(x*) > 0` -> no real roots
-- upward parabola with `f(x*) < 0` -> two real roots
-- downward parabola works symmetrically
+```text
+f(x*)
+```
 
-After that, each real root is refined with a damped Newton iteration.
+Р­С‚Рѕ РїРѕР·РІРѕР»СЏРµС‚ РѕРїСЂРµРґРµР»РёС‚СЊ С‡РёСЃР»Рѕ РІРµС‰РµСЃС‚РІРµРЅРЅС‹С… РєРѕСЂРЅРµР№ Р±РµР· РїСЂСЏРјРѕРіРѕ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёСЏ С„РѕСЂРјСѓР»С‹ РґРёСЃРєСЂРёРјРёРЅР°РЅС‚Р°:
 
-## Why `atan` is used
+- `f(x*) = 0` -> РѕРґРёРЅ РґРІСѓРєСЂР°С‚РЅС‹Р№ РєРѕСЂРµРЅСЊ
+- `a > 0` Рё `f(x*) > 0` -> РІРµС‰РµСЃС‚РІРµРЅРЅС‹С… РєРѕСЂРЅРµР№ РЅРµС‚
+- `a > 0` Рё `f(x*) < 0` -> РґРІР° РІРµС‰РµСЃС‚РІРµРЅРЅС‹С… РєРѕСЂРЅСЏ
+- РґР»СЏ `a < 0` Р»РѕРіРёРєР° СЃРёРјРјРµС‚СЂРёС‡РЅР°
 
-The solver does not apply Newton directly to `f(x)`. Instead, it uses:
+РџРѕСЃР»Рµ СЌС‚РѕРіРѕ РєРѕСЂРЅРё СѓС‚РѕС‡РЅСЏСЋС‚СЃСЏ РґРµРјРїС„РёСЂРѕРІР°РЅРЅС‹Рј РјРµС‚РѕРґРѕРј РќСЊСЋС‚РѕРЅР°.
+
+## Р—Р°С‡РµРј РёСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ Р°СЂРєС‚Р°РЅРіРµРЅСЃ
+
+Р’РјРµСЃС‚Рѕ РїСЂСЏРјРѕРіРѕ РїСЂРёРјРµРЅРµРЅРёСЏ РјРµС‚РѕРґР° РќСЊСЋС‚РѕРЅР° Рє `f(x)` РїСЂРѕРіСЂР°РјРјР° РёСЃРїРѕР»СЊР·СѓРµС‚ РїСЂРµРѕР±СЂР°Р·РѕРІР°РЅРЅСѓСЋ С„СѓРЅРєС†РёСЋ
 
 ```text
 phi(x) = atan(s * f(x))
 ```
 
-where `s` is a scaling factor.
+РіРґРµ `s` вЂ” РјР°СЃС€С‚Р°Р±РЅС‹Р№ РєРѕСЌС„С„РёС†РёРµРЅС‚.
 
-This helps because `atan(...)` compresses large values of the function and makes the iteration more stable when the starting point is far from the root.
+Р­С‚Рѕ РЅСѓР¶РЅРѕ РґР»СЏ С‚РѕРіРѕ, С‡С‚РѕР±С‹:
 
-The derivative is:
+- СЃР¶Р°С‚СЊ СЃР»РёС€РєРѕРј Р±РѕР»СЊС€РёРµ Р·РЅР°С‡РµРЅРёСЏ С„СѓРЅРєС†РёРё
+- СЃРґРµР»Р°С‚СЊ С€Р°РіРё СѓСЃС‚РѕР№С‡РёРІРµРµ РІРґР°Р»Рё РѕС‚ РєРѕСЂРЅСЏ
+- СѓРјРµРЅСЊС€РёС‚СЊ РІРµСЂРѕСЏС‚РЅРѕСЃС‚СЊ РЅРµСѓРґР°С‡РЅРѕРіРѕ РїРµСЂРµР»С‘С‚Р°
+
+РџСЂРѕРёР·РІРѕРґРЅР°СЏ РёРјРµРµС‚ РІРёРґ
 
 ```text
-phi'(x) = s * f'(x) / (1 + (s*f(x))^2)
+phi'(x) = s * f'(x) / (1 + (s * f(x))^2)
 ```
 
-with
+РіРґРµ
 
 ```text
 f'(x) = 2*a*x + b
 ```
 
-## Damping rule
+## Р”РµРјРїС„РёСЂРѕРІР°РЅРёРµ С€Р°РіР°
 
-The raw Newton step is:
+РЎРЅР°С‡Р°Р»Р° СЃС‡РёС‚Р°РµС‚СЃСЏ РѕР±С‹С‡РЅС‹Р№ С€Р°Рі РќСЊСЋС‚РѕРЅР°:
 
 ```text
 delta = phi(x) / phi'(x)
 ```
 
-Then the program applies damping:
+Р—Р°С‚РµРј РїСЂРёРјРµРЅСЏРµС‚СЃСЏ РєРѕСЌС„С„РёС†РёРµРЅС‚ РґРµРјРїС„РёСЂРѕРІР°РЅРёСЏ:
 
 ```text
 lambda = atan(|delta|) / |delta|
 ```
 
-and updates the approximation as:
+Рё РЅРѕРІР°СЏ РёС‚РµСЂР°С†РёСЏ РІС‹С‡РёСЃР»СЏРµС‚СЃСЏ С‚Р°Рє:
 
 ```text
 x_(k+1) = x_k - lambda * delta
 ```
 
-This means:
+РЎРјС‹СЃР» РїСЂРѕСЃС‚РѕР№:
 
-- small steps behave almost like ordinary Newton
-- large steps are automatically reduced
+- РјР°Р»РµРЅСЊРєРёР№ С€Р°Рі -> РјРµС‚РѕРґ РїРѕС‡С‚Рё СЃРѕРІРїР°РґР°РµС‚ СЃ РєР»Р°СЃСЃРёС‡РµСЃРєРёРј РќСЊСЋС‚РѕРЅРѕРј
+- Р±РѕР»СЊС€РѕР№ С€Р°Рі -> С€Р°Рі Р°РІС‚РѕРјР°С‚РёС‡РµСЃРєРё СѓРјРµРЅСЊС€Р°РµС‚СЃСЏ
 
-## Root search strategy
+## РљР°Рє РёС‰СѓС‚СЃСЏ РєРѕСЂРЅРё
 
-If two real roots exist, the extremum splits the parabola into the left and right monotonic branches.
+Р•СЃР»Рё Сѓ СѓСЂР°РІРЅРµРЅРёСЏ РґРІР° РІРµС‰РµСЃС‚РІРµРЅРЅС‹С… РєРѕСЂРЅСЏ, С‚РѕС‡РєР° СЌРєСЃС‚СЂРµРјСѓРјР° РґРµР»РёС‚ РїР°СЂР°Р±РѕР»Сѓ РЅР° РґРІРµ РјРѕРЅРѕС‚РѕРЅРЅС‹Рµ РІРµС‚РІРё:
 
-The program expands outward from the extremum until it finds a sign change on each side, then uses the midpoint of that interval as the initial approximation for the damped Newton method.
+- Р»РµРІСѓСЋ
+- РїСЂР°РІСѓСЋ
 
-## Special cases
+РџСЂРѕРіСЂР°РјРјР°:
 
-- if `a = 0`, the program solves the linear equation `b*x + c = 0`
-- if `a = 0`, `b = 0`, and `c = 0`, there are infinitely many solutions
-- if `a = 0`, `b = 0`, and `c != 0`, there are no solutions
-- only real roots are reported
+1. Р±РµСЂС‘С‚ С‚РѕС‡РєСѓ СЌРєСЃС‚СЂРµРјСѓРјР°
+2. СЂР°СЃС€РёСЂСЏРµС‚ РѕР±Р»Р°СЃС‚СЊ РІР»РµРІРѕ, РїРѕРєР° РЅРµ РЅР°Р№РґС‘С‚ СЃРјРµРЅСѓ Р·РЅР°РєР° С„СѓРЅРєС†РёРё
+3. СЂР°СЃС€РёСЂСЏРµС‚ РѕР±Р»Р°СЃС‚СЊ РІРїСЂР°РІРѕ, РїРѕРєР° РЅРµ РЅР°Р№РґС‘С‚ СЃРјРµРЅСѓ Р·РЅР°РєР° С„СѓРЅРєС†РёРё
+4. РёСЃРїРѕР»СЊР·СѓРµС‚ СЃРµСЂРµРґРёРЅСѓ РЅР°Р№РґРµРЅРЅРѕРіРѕ РёРЅС‚РµСЂРІР°Р»Р° РєР°Рє РЅР°С‡Р°Р»СЊРЅРѕРµ РїСЂРёР±Р»РёР¶РµРЅРёРµ
 
-## Project structure
+РџРѕСЃР»Рµ СЌС‚РѕРіРѕ Р·Р°РїСѓСЃРєР°РµС‚СЃСЏ РґРµРјРїС„РёСЂРѕРІР°РЅРЅС‹Р№ РјРµС‚РѕРґ РќСЊСЋС‚РѕРЅР° РґР»СЏ РєР°Р¶РґРѕР№ РІРµС‚РІРё.
+
+## РћСЃРѕР±С‹Рµ СЃР»СѓС‡Р°Рё
+
+- РµСЃР»Рё `a = 0`, СЂРµС€Р°РµС‚СЃСЏ Р»РёРЅРµР№РЅРѕРµ СѓСЂР°РІРЅРµРЅРёРµ `b*x + c = 0`
+- РµСЃР»Рё `a = 0`, `b = 0`, `c = 0`, СЂРµС€РµРЅРёР№ Р±РµСЃРєРѕРЅРµС‡РЅРѕ РјРЅРѕРіРѕ
+- РµСЃР»Рё `a = 0`, `b = 0`, `c != 0`, СЂРµС€РµРЅРёР№ РЅРµС‚
+- РїСЂРѕРіСЂР°РјРјР° РёС‰РµС‚ С‚РѕР»СЊРєРѕ РІРµС‰РµСЃС‚РІРµРЅРЅС‹Рµ РєРѕСЂРЅРё
+
+## РЎС‚СЂСѓРєС‚СѓСЂР° РїСЂРѕРµРєС‚Р°
 
 ```text
 .
-в”њв”Ђ quadratic_newton.cpp
-в”њв”Ђ quadratic_newton.exe
-в””в”Ђ README.md
+в”њв”Ђ quadratic_newton.cpp   # РёСЃС…РѕРґРЅС‹Р№ РєРѕРґ
+в”њв”Ђ quadratic_newton.exe   # СЃРѕР±СЂР°РЅРЅС‹Р№ РёСЃРїРѕР»РЅСЏРµРјС‹Р№ С„Р°Р№Р»
+в””в”Ђ README.md              # РѕРїРёСЃР°РЅРёРµ РїСЂРѕРµРєС‚Р°
 ```
 
-## Build
+## РЎР±РѕСЂРєР°
 
 ```bash
 g++ -std=c++17 -O2 -Wall -Wextra -pedantic quadratic_newton.cpp -o quadratic_newton
 ```
 
-On Windows:
+Р”Р»СЏ Windows:
 
 ```bash
 g++ -std=c++17 -O2 -Wall -Wextra -pedantic quadratic_newton.cpp -o quadratic_newton.exe
 ```
 
-## Run
+## Р—Р°РїСѓСЃРє
 
 ```bash
 ./quadratic_newton
 ```
 
-or on Windows:
+РёР»Рё РІ Windows:
 
 ```bash
 quadratic_newton.exe
 ```
 
-## Example
+## РџСЂРёРјРµСЂ СЂР°Р±РѕС‚С‹
 
-Input:
+Р’С…РѕРґ:
 
 ```text
 1 -3 2
 ```
 
-Output:
+Р’С‹С…РѕРґ:
 
 ```text
 Quadratic equation solver by damped Newton method
@@ -155,29 +181,29 @@ Iterations for x1: 7
 Iterations for x2: 7
 ```
 
-## Verified cases
+## РџСЂРѕРІРµСЂРµРЅРЅС‹Рµ СЃР»СѓС‡Р°Рё
 
-- `1 -3 2` -> two roots: `1` and `2`
-- `1 2 1` -> one double root: `-1`
-- `1 0 1` -> no real roots
-- `0 2 -8` -> linear case, root `4`
+- `1 -3 2` -> РґРІР° РєРѕСЂРЅСЏ: `1` Рё `2`
+- `1 2 1` -> РѕРґРёРЅ РґРІСѓРєСЂР°С‚РЅС‹Р№ РєРѕСЂРµРЅСЊ: `-1`
+- `1 0 1` -> РІРµС‰РµСЃС‚РІРµРЅРЅС‹С… РєРѕСЂРЅРµР№ РЅРµС‚
+- `0 2 -8` -> Р»РёРЅРµР№РЅС‹Р№ СЃР»СѓС‡Р°Р№, РєРѕСЂРµРЅСЊ `4`
 
-## Main components
+## Р§С‚Рѕ СЂРµР°Р»РёР·РѕРІР°РЅРѕ РІ РєРѕРґРµ
 
-- `polynomial(...)` computes the quadratic value
-- `derivative(...)` computes the derivative
-- `transformed_function(...)` builds `atan(s*f(x))`
-- `transformed_derivative(...)` computes its derivative
-- `damping_from_step(...)` computes the damping factor
-- `damped_newton(...)` runs the iterative method
+- `polynomial(...)` РІС‹С‡РёСЃР»СЏРµС‚ Р·РЅР°С‡РµРЅРёРµ РєРІР°РґСЂР°С‚РЅРѕРіРѕ С‚СЂС‘С…С‡Р»РµРЅР°
+- `derivative(...)` РІС‹С‡РёСЃР»СЏРµС‚ РїСЂРѕРёР·РІРѕРґРЅСѓСЋ
+- `transformed_function(...)` СЃС‚СЂРѕРёС‚ `atan(s * f(x))`
+- `transformed_derivative(...)` РІС‹С‡РёСЃР»СЏРµС‚ РїСЂРѕРёР·РІРѕРґРЅСѓСЋ РїСЂРµРѕР±СЂР°Р·РѕРІР°РЅРЅРѕР№ С„СѓРЅРєС†РёРё
+- `damping_from_step(...)` СЃС‡РёС‚Р°РµС‚ РєРѕСЌС„С„РёС†РёРµРЅС‚ РґРµРјРїС„РёСЂРѕРІР°РЅРёСЏ
+- `damped_newton(...)` РІС‹РїРѕР»РЅСЏРµС‚ РёС‚РµСЂР°С†РёРѕРЅРЅС‹Р№ РїСЂРѕС†РµСЃСЃ
 
-## Possible improvements
+## Р’РѕР·РјРѕР¶РЅС‹Рµ СѓР»СѓС‡С€РµРЅРёСЏ
 
-- add complex root support
-- add unit tests
-- add a CMake build
-- add repeated interactive runs without restarting the program
+- РґРѕР±Р°РІРёС‚СЊ РїРѕРґРґРµСЂР¶РєСѓ РєРѕРјРїР»РµРєСЃРЅС‹С… РєРѕСЂРЅРµР№
+- РґРѕР±Р°РІРёС‚СЊ СЋРЅРёС‚-С‚РµСЃС‚С‹
+- РѕС„РѕСЂРјРёС‚СЊ СЃР±РѕСЂРєСѓ С‡РµСЂРµР· `CMake`
+- СЃРґРµР»Р°С‚СЊ РїРѕРІС‚РѕСЂРЅС‹Р№ РІРІРѕРґ Р±РµР· РїРµСЂРµР·Р°РїСѓСЃРєР° РїСЂРѕРіСЂР°РјРјС‹
 
-## Repository
+## Р РµРїРѕР·РёС‚РѕСЂРёР№
 
 GitHub: [WalterOfficial/damped-newton-quadratic-solver](https://github.com/WalterOfficial/damped-newton-quadratic-solver)
