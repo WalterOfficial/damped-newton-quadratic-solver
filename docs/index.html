@@ -4,276 +4,317 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Damped Newton Quadratic Solver</title>
-  <meta name="description" content="Сайт проекта для решения квадратных уравнений демпфированным методом Ньютона с графиками, формулами и сравнением устойчивости.">
+  <meta name="description" content="Сайт проекта про демпфированный метод Ньютона, устойчивость итераций и сравнение с классическим подходом.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <div class="page-shell">
-    <div class="bg-orb orb-a"></div>
-    <div class="bg-orb orb-b"></div>
-    <div class="bg-orb orb-c"></div>
-    <header class="hero">
-      <div class="hero-copy">
-        <p class="eyebrow">C++ • Numerical Methods • GitHub Project</p>
-        <h1>Демпфированный Ньютон для квадратных уравнений</h1>
-        <p class="hero-text">
-          Небольшой, но наглядный проект про поиск вещественных корней, устойчивость итераций и то,
-          как арктангенс помогает сделать метод Ньютона осторожнее на сложных стартах.
-        </p>
-        <div class="hero-code">
-          <span class="hero-code-label">Итерационный шаг</span>
-          <code>x_(k+1) = x_k - lambda * delta</code>
-        </div>
-        <div class="hero-actions">
-          <a class="button primary" href="https://github.com/WalterOfficial/damped-newton-quadratic-solver" target="_blank" rel="noreferrer">Открыть репозиторий</a>
-          <a class="button secondary" href="https://github.com/WalterOfficial/damped-newton-quadratic-solver/blob/main/quadratic_newton.cpp" target="_blank" rel="noreferrer">Посмотреть код</a>
-        </div>
-      </div>
-      <div class="hero-panel">
-        <div class="formula-card">
-          <span class="formula-label">Основное уравнение</span>
-          <div class="formula-display">$$a x^2 + b x + c = 0$$</div>
-        </div>
-        <div class="stats-grid">
-          <article>
-            <strong>2 режима</strong>
-            <span>обычный и демпфированный Ньютон</span>
-          </article>
-          <article>
-            <strong>3 графика</strong>
-            <span>сходимость на сложных функциях</span>
-          </article>
-          <article>
-            <strong>LaTeX</strong>
-            <span>формулы рендерятся прямо на странице</span>
-          </article>
-          <article>
-            <strong>GitHub Pages</strong>
-            <span>сайт лежит прямо в репозитории</span>
-          </article>
-        </div>
-      </div>
+  <div class="site-bg" aria-hidden="true">
+    <div class="site-glow glow-a"></div>
+    <div class="site-glow glow-b"></div>
+    <div class="site-grid"></div>
+  </div>
+
+  <div class="page">
+    <header class="topbar reveal">
+      <a class="brand" href="#top">
+        <span class="brand-mark">DN</span>
+        <span class="brand-copy">
+          <strong>Damped Newton</strong>
+          <small>quadratic solver / C++</small>
+        </span>
+      </a>
+      <nav class="topnav">
+        <a href="#method">Метод</a>
+        <a href="#compare">Сравнение</a>
+        <a href="#graphs">Графики</a>
+      </nav>
+      <a class="button button-dark" href="https://github.com/WalterOfficial/damped-newton-quadratic-solver" target="_blank" rel="noreferrer">GitHub</a>
     </header>
 
-    <main>
-      <section class="section">
-        <div class="section-heading">
-          <p class="eyebrow">Суть проекта</p>
-          <h2>Что именно здесь исследуется</h2>
+    <main id="top">
+      <section class="hero">
+        <div class="hero-copy reveal">
+          <p class="eyebrow">численные методы / github pages / latex</p>
+          <h1>Демпфированный Ньютон, но теперь без уродского сайта</h1>
+          <p class="lead">
+            Это уже не случайный набор карточек, а аккуратный лендинг для репозитория:
+            с формулами, сравнением устойчивости, графиками сходимости и ясной подачей идеи.
+          </p>
+
+          <div class="hero-actions">
+            <a class="button button-accent" href="https://github.com/WalterOfficial/damped-newton-quadratic-solver" target="_blank" rel="noreferrer">Открыть репозиторий</a>
+            <a class="button button-light" href="https://github.com/WalterOfficial/damped-newton-quadratic-solver/blob/main/quadratic_newton.cpp" target="_blank" rel="noreferrer">Смотреть код</a>
+          </div>
+
+          <div class="hero-strip">
+            <div>
+              <span>2 режима</span>
+              <strong>Чистый и демпфированный Ньютон</strong>
+            </div>
+            <div>
+              <span>3 графика</span>
+              <strong>Сходимость на сложных стартах</strong>
+            </div>
+            <div>
+              <span>KaTeX</span>
+              <strong>Формулы прямо на странице</strong>
+            </div>
+          </div>
         </div>
-        <div class="card-grid three">
-          <article class="info-card">
-            <h3>Геометрия параболы</h3>
-            <p>Сначала анализируется экстремум квадратичной функции, чтобы понять, сколько вообще существует вещественных корней.</p>
-          </article>
-          <article class="info-card">
-            <h3>Численная устойчивость</h3>
-            <p>Вместо прямой итерации по <span class="inline-math">\(f(x)\)</span> используется сглаженное преобразование через арктангенс.</p>
-          </article>
-          <article class="info-card">
-            <h3>Сравнение подходов</h3>
-            <p>На простых задачах обычный Ньютон часто быстрее, но на плохих стартах демпфированный вариант показывает лучшую устойчивость.</p>
-          </article>
-        </div>
+
+        <aside class="hero-sheet reveal reveal-delay-1">
+          <div class="sheet-head">
+            <p class="eyebrow">ядро метода</p>
+            <span class="pill">устойчивость важнее бравады</span>
+          </div>
+
+          <div class="formula-box">
+            $$a x^2 + b x + c = 0$$
+          </div>
+
+          <div class="sheet-grid">
+            <article class="sheet-card">
+              <h3>Экстремум</h3>
+              <div class="mini-formula">$$x^\* = -\frac{b}{2a}$$</div>
+              <p>Сначала выясняем структуру корней через геометрию параболы.</p>
+            </article>
+            <article class="sheet-card">
+              <h3>Сглаживание</h3>
+              <div class="mini-formula">$$\varphi(x)=\arctan(s f(x))$$</div>
+              <p>Арктангенс сжимает большие значения и делает шаги осторожнее.</p>
+            </article>
+          </div>
+
+          <div class="meter-stack">
+            <div class="meter">
+              <div class="meter-label">
+                <span>Скорость на хорошем старте</span>
+                <strong>обычный Ньютон</strong>
+              </div>
+              <div class="meter-track"><span data-fill="86"></span></div>
+            </div>
+            <div class="meter">
+              <div class="meter-label">
+                <span>Устойчивость на плохом старте</span>
+                <strong>демпфированный Ньютон</strong>
+              </div>
+              <div class="meter-track meter-track-accent"><span data-fill="92"></span></div>
+            </div>
+          </div>
+        </aside>
       </section>
 
-      <section class="section split">
-        <div class="section-heading">
-          <p class="eyebrow">Формулы</p>
-          <h2>Математическая схема</h2>
-        </div>
-        <div class="math-stack">
-          <article class="math-card">
-            <h3>Экстремум квадратичной функции</h3>
-            <div class="formula-display">$$f(x) = a x^2 + b x + c$$</div>
-            <div class="formula-display">$$x^\* = -\frac{b}{2a}$$</div>
-            <p>Знак <span class="inline-math">\(f(x^\*)\)</span> позволяет определить, сколько существует вещественных корней.</p>
-          </article>
-          <article class="math-card">
-            <h3>Стабилизирующее преобразование</h3>
-            <div class="formula-display">$$\varphi(x) = \arctan\!\left(s f(x)\right)$$</div>
-            <div class="formula-display">$$\varphi'(x) = \frac{s f'(x)}{1 + \left(s f(x)\right)^2}$$</div>
-            <p>Арктангенс сжимает слишком большие значения функции и делает шаги метода мягче.</p>
-          </article>
-          <article class="math-card">
-            <h3>Демпфированный шаг</h3>
-            <div class="formula-display">$$\delta = \frac{\varphi(x)}{\varphi'(x)}$$</div>
-            <div class="formula-display">$$\lambda = \frac{\arctan(|\delta|)}{|\delta|}$$</div>
-            <div class="formula-display">$$x_{k+1} = x_k - \lambda \delta$$</div>
-            <p>Если шаг слишком велик, коэффициент <span class="inline-math">\(\lambda\)</span> автоматически уменьшает его длину.</p>
-          </article>
-        </div>
+      <section class="feature-grid" id="method">
+        <article class="feature feature-highlight reveal">
+          <p class="eyebrow">идея</p>
+          <h2>Сначала понимаем форму функции, потом уже запускаем итерации</h2>
+          <p>
+            Ключевая мысль проекта проста: не бросать Ньютон вслепую в уравнение,
+            а сначала определить характер задачи через экстремум квадратичной функции.
+          </p>
+          <div class="feature-note">
+            <span>Формула</span>
+            <strong>$$f(x)=a x^2+b x+c$$</strong>
+          </div>
+        </article>
+
+        <article class="feature feature-code reveal reveal-delay-1">
+          <p class="eyebrow">шаг метода</p>
+          <h2>Итерация в компактном виде</h2>
+          <pre><code>delta = phi / phi'
+lambda = atan(|delta|) / |delta|
+x = x - lambda * delta</code></pre>
+          <p>На хороших стартах это почти классический Ньютон. На плохих — уже более осторожная схема.</p>
+        </article>
+
+        <article class="feature feature-soft reveal reveal-delay-2">
+          <p class="eyebrow">смысл arctan</p>
+          <h2>Не ускорять любой ценой, а удерживать итерации в руках</h2>
+          <p>
+            Здесь демпфирование нужно не для красоты. Оно снижает шанс грубого перелёта,
+            когда чистый Ньютон на сложной функции делает слишком агрессивный шаг.
+          </p>
+        </article>
       </section>
 
-      <section class="section">
-        <div class="section-heading">
-          <p class="eyebrow">Алгоритм</p>
-          <h2>Как программа ищет корни</h2>
+      <section class="steps-section reveal">
+        <div class="section-head">
+          <p class="eyebrow">алгоритм</p>
+          <h2>Четыре шага, без лишнего тумана</h2>
         </div>
-        <div class="timeline">
-          <article>
-            <span class="step-badge">01</span>
-            <h3>Определение типа задачи</h3>
-            <p>Если <span class="inline-math">\(a = 0\)</span>, программа переходит к линейному случаю. Иначе остаётся в квадратичном режиме.</p>
+
+        <div class="steps-grid">
+          <article class="step-card reveal">
+            <span class="step-index">01</span>
+            <h3>Проверка типа задачи</h3>
+            <p>Если <span class="inline-math">\(a = 0\)</span>, решаем линейное уравнение. Иначе остаёмся в квадратичном случае.</p>
           </article>
-          <article>
-            <span class="step-badge">02</span>
+          <article class="step-card reveal reveal-delay-1">
+            <span class="step-index">02</span>
             <h3>Поиск экстремума</h3>
-            <p>Вычисляется <span class="inline-math">\(x^\* = -b / 2a\)</span>, затем проверяется значение функции в этой точке.</p>
+            <p>Вычисляем <span class="inline-math">\(x^\* = -b / 2a\)</span> и по знаку <span class="inline-math">\(f(x^\*)\)</span> понимаем, сколько существует корней.</p>
           </article>
-          <article>
-            <span class="step-badge">03</span>
-            <h3>Выбор стартов</h3>
-            <p>Для двух корней берутся интервалы со сменой знака слева и справа от экстремума, а их середины используются как начальные приближения.</p>
+          <article class="step-card reveal reveal-delay-2">
+            <span class="step-index">03</span>
+            <h3>Стартовые приближения</h3>
+            <p>Для двух корней строим интервалы со сменой знака слева и справа от экстремума и берём их середины.</p>
           </article>
-          <article>
-            <span class="step-badge">04</span>
-            <h3>Итерации Ньютона</h3>
-            <p>В зависимости от режима используется либо классический шаг Ньютона, либо его демпфированная версия с арктангенсом.</p>
+          <article class="step-card reveal reveal-delay-3">
+            <span class="step-index">04</span>
+            <h3>Численное уточнение</h3>
+            <p>Дальше работает либо обычный шаг Ньютона, либо демпфированный вариант с более мягкой динамикой.</p>
           </article>
         </div>
       </section>
 
-      <section class="section">
-        <div class="section-heading">
-          <p class="eyebrow">Сравнение</p>
-          <h2>Квадратичные задачи</h2>
+      <section class="compare-section" id="compare">
+        <div class="section-head reveal">
+          <p class="eyebrow">сравнение методов</p>
+          <h2>Где быстрый Ньютон хорош, а где осторожный Ньютон сильнее</h2>
         </div>
-        <div class="table-card">
-          <table>
-            <thead>
-              <tr>
-                <th>Уравнение</th>
-                <th>Старт</th>
-                <th>Чистый Ньютон</th>
-                <th>Демпфированный</th>
-                <th>Вывод</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td><span class="inline-math">\(x^2 - 3x + 2 = 0\)</span></td>
-                <td>-2.116025</td>
-                <td>7 итераций</td>
-                <td>7 итераций</td>
-                <td>Одинаково</td>
-              </tr>
-              <tr>
-                <td><span class="inline-math">\(x^2 - 2 = 0\)</span></td>
-                <td>1.366025</td>
-                <td>3 итерации</td>
-                <td>3 итерации</td>
-                <td>Одинаково</td>
-              </tr>
-              <tr>
-                <td><span class="inline-math">\(x^2 + 100x - 1 = 0\)</span></td>
-                <td>26.207107</td>
-                <td>5 итераций</td>
-                <td>20 итераций</td>
-                <td>Чистый быстрее</td>
-              </tr>
-              <tr>
-                <td><span class="inline-math">\(x^2 - 10^6 = 0\)</span></td>
-                <td>500.500250</td>
-                <td>6 итераций</td>
-                <td>Не сошёлся за 100</td>
-                <td>Чистый лучше</td>
-              </tr>
-            </tbody>
-          </table>
+
+        <div class="compare-grid">
+          <article class="table-panel reveal">
+            <div class="panel-head">
+              <p class="eyebrow">квадратичные задачи</p>
+              <h3>Там, где классика обычно доминирует</h3>
+            </div>
+            <table>
+              <thead>
+                <tr>
+                  <th>Уравнение</th>
+                  <th>Старт</th>
+                  <th>Чистый</th>
+                  <th>Демпфированный</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><span class="inline-math">\(x^2 - 3x + 2 = 0\)</span></td>
+                  <td>-2.116025</td>
+                  <td>7</td>
+                  <td>7</td>
+                </tr>
+                <tr>
+                  <td><span class="inline-math">\(x^2 - 2 = 0\)</span></td>
+                  <td>1.366025</td>
+                  <td>3</td>
+                  <td>3</td>
+                </tr>
+                <tr>
+                  <td><span class="inline-math">\(x^2 + 100x - 1 = 0\)</span></td>
+                  <td>26.207107</td>
+                  <td>5</td>
+                  <td>20</td>
+                </tr>
+                <tr>
+                  <td><span class="inline-math">\(x^2 - 10^6 = 0\)</span></td>
+                  <td>500.500250</td>
+                  <td>6</td>
+                  <td>не сошёлся</td>
+                </tr>
+              </tbody>
+            </table>
+          </article>
+
+          <article class="table-panel reveal reveal-delay-1">
+            <div class="panel-head">
+              <p class="eyebrow">сложные функции</p>
+              <h3>Там, где демпфирование спасает старт</h3>
+            </div>
+            <table>
+              <thead>
+                <tr>
+                  <th>Функция</th>
+                  <th>Старт</th>
+                  <th>Чистый</th>
+                  <th>Демпфированный</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><span class="inline-math">\(\cos x - x = 0\)</span></td>
+                  <td>-5.5</td>
+                  <td>не сошёлся</td>
+                  <td>8</td>
+                </tr>
+                <tr>
+                  <td><span class="inline-math">\(x - \sin x - 0.5 = 0\)</span></td>
+                  <td>-2.5</td>
+                  <td>не сошёлся</td>
+                  <td>6</td>
+                </tr>
+                <tr>
+                  <td><span class="inline-math">\(\arctan x - 0.8 = 0\)</span></td>
+                  <td>-6.0</td>
+                  <td>срыв</td>
+                  <td>9</td>
+                </tr>
+                <tr>
+                  <td><span class="inline-math">\(e^{-x} - x = 0\)</span></td>
+                  <td>0.0</td>
+                  <td>5</td>
+                  <td>5</td>
+                </tr>
+              </tbody>
+            </table>
+          </article>
         </div>
       </section>
 
-      <section class="section">
-        <div class="section-heading">
-          <p class="eyebrow">Сложные функции</p>
-          <h2>Где демпфирование действительно полезно</h2>
+      <section class="graphs-section" id="graphs">
+        <div class="section-head reveal">
+          <p class="eyebrow">графики</p>
+          <h2>Как падает невязка по итерациям</h2>
+          <p class="section-text">
+            На графиках показана <span class="inline-math">\(\log_{10}(|f(x_n)|)\)</span>.
+            Чем быстрее кривая идёт вниз, тем быстрее метод приближается к корню.
+          </p>
         </div>
-        <div class="table-card">
-          <table>
-            <thead>
-              <tr>
-                <th>Функция</th>
-                <th>Старт</th>
-                <th>Чистый Ньютон</th>
-                <th>Демпфированный</th>
-                <th>Вывод</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td><span class="inline-math">\(\cos x - x = 0\)</span></td>
-                <td><span class="inline-math">\(x_0 = -5.5\)</span></td>
-                <td>Не сошёлся за 60 шагов</td>
-                <td>Сошёлся за 8 шагов</td>
-                <td>Демпфирование сильно лучше</td>
-              </tr>
-              <tr>
-                <td><span class="inline-math">\(x - \sin x - 0.5 = 0\)</span></td>
-                <td><span class="inline-math">\(x_0 = -2.5\)</span></td>
-                <td>Не сошёлся за 60 шагов</td>
-                <td>Сошёлся за 6 шагов</td>
-                <td>Демпфирование лучше</td>
-              </tr>
-              <tr>
-                <td><span class="inline-math">\(\arctan x - 0.8 = 0\)</span></td>
-                <td><span class="inline-math">\(x_0 = -6.0\)</span></td>
-                <td>Срыв на ранних шагах</td>
-                <td>Сошёлся за 9 шагов</td>
-                <td>Демпфирование лучше</td>
-              </tr>
-              <tr>
-                <td><span class="inline-math">\(e^{-x} - x = 0\)</span></td>
-                <td><span class="inline-math">\(x_0 = 0\)</span></td>
-                <td>5 шагов</td>
-                <td>5 шагов</td>
-                <td>Почти одинаково</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </section>
 
-      <section class="section">
-        <div class="section-heading">
-          <p class="eyebrow">Графики</p>
-          <h2>Сходимость по итерациям</h2>
-          <p class="section-note">На графиках по оси Y показана невязка <span class="inline-math">\(\log_{10}(|f(x_n)|)\)</span>, по оси X — номер итерации.</p>
-        </div>
-        <div class="graph-grid">
-          <figure class="graph-card">
-            <img src="assets/complex_cos_minus_x.svg" alt="График сходимости для cos(x)-x">
-            <figcaption><span class="inline-math">\(\cos x - x = 0\)</span>, старт <span class="inline-math">\(x_0 = -5.5\)</span></figcaption>
+        <div class="graphs-grid">
+          <figure class="graph-panel graph-panel-wide reveal">
+            <img src="assets/complex_cos_minus_x.svg" alt="Сходимость для cos(x)-x">
+            <figcaption>
+              <strong><span class="inline-math">\(\cos x - x = 0\)</span></strong>
+              <span>Плохой старт <span class="inline-math">\(x_0 = -5.5\)</span>, где чистый Ньютон теряет устойчивость.</span>
+            </figcaption>
           </figure>
-          <figure class="graph-card">
-            <img src="assets/complex_x_minus_sin.svg" alt="График сходимости для x-sin(x)-0.5">
-            <figcaption><span class="inline-math">\(x - \sin x - 0.5 = 0\)</span>, старт <span class="inline-math">\(x_0 = -2.5\)</span></figcaption>
+
+          <figure class="graph-panel reveal reveal-delay-1">
+            <img src="assets/complex_x_minus_sin.svg" alt="Сходимость для x-sin(x)-0.5">
+            <figcaption>
+              <strong><span class="inline-math">\(x - \sin x - 0.5 = 0\)</span></strong>
+              <span>Демпфирование заметно быстрее доводит метод до корня.</span>
+            </figcaption>
           </figure>
-          <figure class="graph-card">
-            <img src="assets/complex_atan_minus_const.svg" alt="График сходимости для atan(x)-0.8">
-            <figcaption><span class="inline-math">\(\arctan x - 0.8 = 0\)</span>, старт <span class="inline-math">\(x_0 = -6.0\)</span></figcaption>
+
+          <figure class="graph-panel reveal reveal-delay-2">
+            <img src="assets/complex_atan_minus_const.svg" alt="Сходимость для atan(x)-0.8">
+            <figcaption>
+              <strong><span class="inline-math">\(\arctan x - 0.8 = 0\)</span></strong>
+              <span>Хороший пример, где обычный Ньютон срывается, а мягкий шаг удерживает траекторию.</span>
+            </figcaption>
           </figure>
         </div>
       </section>
 
-      <section class="section compact">
-        <div class="callout">
-          <div>
-            <p class="eyebrow">Итог</p>
-            <h2>О чём этот проект на самом деле</h2>
-            <p>
-              Это не просто решатель квадратных уравнений, а маленькая витрина про численные методы:
-              где классический Ньютон блистает скоростью, а где более осторожный демпфированный вариант выигрывает устойчивостью.
-            </p>
-          </div>
-          <div class="callout-actions">
-            <a class="button primary" href="https://github.com/WalterOfficial/damped-newton-quadratic-solver/blob/main/README.md" target="_blank" rel="noreferrer">Открыть README</a>
-            <a class="button tertiary" href="https://github.com/WalterOfficial/damped-newton-quadratic-solver/blob/main/tools/generate_newton_graphs.py" target="_blank" rel="noreferrer">Скрипт графиков</a>
-          </div>
+      <section class="footer-card reveal">
+        <div>
+          <p class="eyebrow">финал</p>
+          <h2>Теперь это уже похоже на нормальную витрину репозитория</h2>
+          <p>
+            Сайт объясняет идею, показывает математику, сравнивает методы и наглядно раскрывает,
+            зачем вообще здесь нужен демпфированный шаг Ньютона.
+          </p>
+        </div>
+        <div class="footer-actions">
+          <a class="button button-accent" href="https://github.com/WalterOfficial/damped-newton-quadratic-solver/blob/main/README.md" target="_blank" rel="noreferrer">Читать README</a>
+          <a class="button button-light" href="https://github.com/WalterOfficial/damped-newton-quadratic-solver/blob/main/tools/generate_newton_graphs.py" target="_blank" rel="noreferrer">Скрипт графиков</a>
         </div>
       </section>
     </main>
