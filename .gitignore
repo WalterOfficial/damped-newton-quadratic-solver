@@ -1,0 +1,10 @@
+*.exe
+*.obj
+*.o
+*.out
+*.ilk
+*.pdb
+*.idb
+*.log
+*.tmp
+*.cache
